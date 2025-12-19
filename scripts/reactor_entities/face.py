@@ -66,20 +66,35 @@ class FaceArea:
         left = left - diff
         right = right + diff
 
-        if top < 0:
-            bottom = bottom - top
-            top = 0
-        if left < 0:
-            right = right - left
-            left = 0
-
-        if bottom > entire_height:
-            top = top - (bottom - entire_height)
-            bottom = entire_height
-        if right > entire_width:
-            left = left - (right - entire_width)
-            right = entire_width
-
+        left = max(0, left)
+        top = max(0, top)
+        right = min(entire_width, right)
+        bottom = min(entire_height, bottom)
+        
+        width = right - left
+        height = bottom - top
+        
+        if width > height:
+            diff = width - height
+            if top == 0:
+                right = right - diff
+            elif bottom == entire_height:
+                left = left + diff
+            else:
+                expand = diff // 2
+                top = max(0, top - expand)
+                bottom = min(entire_height, bottom + expand)
+        elif height > width:
+            diff = height - width
+            if left == 0:
+                bottom = bottom - diff
+            elif right == entire_width:
+                top = top + diff
+            else:
+                expand = diff // 2
+                left = max(0, left - expand)
+                right = min(entire_width, right + expand)
+        
         return left, top, right, bottom
 
     def get_angle(self) -> float:
@@ -137,11 +152,12 @@ class FaceArea:
 
     def __clip_values(self, *args):
         result = []
+        padding = 5
         for val in args:
-            if val < 0:
-                result.append(0)
-            elif val > self.face_size:
-                result.append(self.face_size)
+            if val < padding:
+                result.append(padding)
+            elif val > self.face_size - padding:
+                result.append(self.face_size - padding)
             else:
                 result.append(val)
         return tuple(result)
