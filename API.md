@@ -73,7 +73,7 @@ curl -X POST \
 
 You can find full usage examples with all the available parameters in the "example" folder: [cURL](./example/api_external.curl), [JSON](./example/api_external.json).
 
-As a result you recieve a "base64" image:
+As a result you receive a "base64" image:
 
 ```
 {"image":"iVBORw0KGgoAAAANSUhEUgAABlAAAARQCAIAAAAdiYuqAAEAAElEQVR4nOz9+ZMlSXImBn6qau4vIjKzzr5wzwBCDrm/7f+/K7IHV3ZkhUIuyZHlkBhiMGig0Y0..."}
